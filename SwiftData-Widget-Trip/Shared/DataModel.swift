@@ -25,7 +25,7 @@ actor DataModel {
         return modelContainer
     }()
     
-    nonisolated var container: ModelContainer {
+    nonisolated var modelContainer: ModelContainer {
         Self.container
     }
 }
