@@ -21,7 +21,7 @@ import SwiftUI
     var endDate: Date
     
     @Relationship(deleteRule: .cascade, inverse: \BucketListItem.trip)
-    var bucketListItems: [BucketListItem] = []
+    var bucketList: [BucketListItem] = []
     
     @Relationship(deleteRule: .cascade, inverse: \LivingAccommodation.trip)
     var livingAccommodation: LivingAccommodation?

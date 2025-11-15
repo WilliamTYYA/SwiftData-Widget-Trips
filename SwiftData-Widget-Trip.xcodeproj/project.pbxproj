@@ -74,6 +74,7 @@
 				Shared/DataModel.swift,
 				"Shared/DataModel+UnreadTrips.swift",
 				Shared/LivingAccommodation.swift,
+				Shared/PreviewSampleData.swift,
 				Shared/Trip.swift,
 			);
 			target = 9E2DDEB52EC534E600029E26 /* SwiftData-Widget-Trip-WidgetExtensionExtension */;
