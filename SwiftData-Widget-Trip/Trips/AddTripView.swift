@@ -125,7 +125,7 @@ struct AddTripView: View {
         }
     }
 }
-//
-//#Preview(traits: .sampleData) {
-//    AddTripView(newTripSegment: .constant(.all))
-//}
+
+#Preview(traits: .sampleData) {
+    AddTripView(newTripSegment: .constant(.all))
+}
