@@ -19,7 +19,7 @@ struct AddTripView: View {
     @State private var startDate = Date()
     @State private var endDate = Date()
     
-    @Binding var newTripSegment: ContentView.Segment
+    var newTripSegment: ContentView.Segment
     @State private var reason: PersonalTrip.Reason = .unknown
     @State private var perdiem: Double = 0.0
     
@@ -127,5 +127,5 @@ struct AddTripView: View {
 }
 
 #Preview(traits: .sampleData) {
-    AddTripView(newTripSegment: .constant(.all))
+    AddTripView(newTripSegment: .all)
 }

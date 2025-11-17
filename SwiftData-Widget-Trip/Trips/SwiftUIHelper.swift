@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if os(macOS)
-typealias TripFrom = List
+typealias TripForm = List
 typealias TripGroupBox = GroupBox
 #else
 typealias TripForm = Form
