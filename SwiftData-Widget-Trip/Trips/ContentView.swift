@@ -46,7 +46,7 @@ struct ContentView: View {
         } detail: {
             if let selection = selection {
                 NavigationStack {
-                    Text("Trip Details for: \(selection.name)")
+                    TripDetailView(trip: selection)
                 }
             } else {
                 ContentUnavailableView("Select a Trip", systemImage: "car.circle")

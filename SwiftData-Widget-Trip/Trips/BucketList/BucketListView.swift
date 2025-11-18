@@ -86,12 +86,36 @@ struct BucketListView: View {
     }
 }
 
+//struct BucketListItemToggle: View {
+//    @Bindable var item: BucketListItem
+//    
+//    var body: some View {
+//        Toggle("Bucket list item is in plan", isOn: $item.isInPlan)
+//            .labelsHidden()
+//    }
+//}
+
 struct BucketListItemToggle: View {
-    @Bindable var item: BucketListItem
+    @Environment(\.modelContext) private var modelContext
+    let item: BucketListItem
+    @State private var isInPlan: Bool
+    
+    init(item: BucketListItem) {
+        self.item = item
+        _isInPlan = State(initialValue: item.isInPlan)
+    }
     
     var body: some View {
-        Toggle("Bucket list item is in plan", isOn: $item.isInPlan)
+        Toggle("Bucket list item is in plan", isOn: $isInPlan)
             .labelsHidden()
+            .onChange(of: isInPlan) { _, newValue in
+                item.isInPlan = newValue
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Failed to save after toggle: \(error)")
+                }
+            }
     }
 }
 
