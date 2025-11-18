@@ -43,7 +43,7 @@ struct TripDetailView: View {
                 Text(trip.displayName).font(.title)
                 Spacer()
                 NavigationLink {
-                    
+                    UpdateTripView(trip: trip)
                 } label: {
                     Label("Edit", systemImage: "chevron.right")
                         .labelStyle(.iconOnly)
@@ -62,7 +62,7 @@ struct TripDetailView: View {
                 Text("Living Accommodations").font(.headline)
                 Spacer()
                 NavigationLink {
-                    
+                    EditLivingAccommodationsView(trip: trip)
                 } label: {
                     Label("Edit", systemImage: "chevron.right")
                         .labelStyle(.iconOnly)
@@ -76,7 +76,7 @@ struct TripDetailView: View {
                 Text("Bucket List").font(.headline)
                 Spacer()
                 NavigationLink {
-                    
+                    BucketListView(trip: trip)
                 } label: {
                     Label("View", systemImage: "chevron.right")
                         .labelStyle(.iconOnly)
@@ -99,8 +99,9 @@ struct TripDetailView: View {
                 Text(trip.endDate, style: .date)
             }
         }
+        
         NavigationLink {
-            
+            UpdateTripView(trip: trip)
         } label: {
             Text("Change Trip Details")
         }
@@ -110,7 +111,7 @@ struct TripDetailView: View {
                 livingAccommodationInfoView()
             }
             NavigationLink {
-                
+                EditLivingAccommodationsView(trip: trip)
             } label: {
                 Text("Change Living Accommodations")
             }
@@ -120,6 +121,7 @@ struct TripDetailView: View {
         
         Section {
             NavigationLink {
+                BucketListView(trip: trip)
             } label: {
                 Text("View Bucket List")
             }
