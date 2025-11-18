@@ -6,14 +6,98 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BucketListView: View {
+    var trip: Trip
+    
+    @Environment(\.modelContext) private var modelContext
+    
+    @State private var showAddItem = false
+    @State private var searchText = ""
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TripForm {
+            ForEach(filteredBucketList, id: \.self) { blt in
+                TripGroupBox {
+                    NavigationLink {
+                        BucketListItemView(item: blt)
+                    } label: {
+                        HStack {
+                            Text(blt.title)
+                            Spacer()
+                            BucketListItemToggle(item: blt)
+                            #if os(macOS)
+                            Image(systemName: "chevron.right")
+                                .font(.system(.footnote).weight(.semibold))
+                            #endif
+                        }
+                    }
+                }
+            }
+            .onDelete(perform: deleteItems(at:))
+        }
+        .searchable(text: $searchText)
+        .navigationTitle("Bucket List")
+        .toolbar {
+            ToolbarItemGroup() {
+                Button {
+                    showAddItem.toggle()
+                } label: {
+                    Label("Add", systemImage: "square.and.pencil")
+                }
+            }
+        }
+        .sheet(isPresented: $showAddItem) {
+            NavigationStack {
+                AddBucketListItemView(trip: trip)
+                    .presentationDetents([.medium, .large])
+            }
+        }
+    }
+    
+    var filteredBucketList: [BucketListItem] {
+        if searchText.isEmpty {
+            return trip.bucketList
+        }
+        
+        var descriptor = FetchDescriptor<BucketListItem>()
+        let tripName = trip.name
+        descriptor.predicate = #Predicate { blt in
+            blt.trip?.name == tripName && blt.title.contains(searchText)
+        }
+        
+        let result = try? modelContext.fetch(descriptor)
+        return result ?? []
+    }
+    
+    private func deleteItems(at offsets: IndexSet) {
+        withAnimation {
+            offsets.forEach {
+                let item = trip.bucketList[$0]
+                modelContext.delete(item)
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Failed to save model context: \(error)")
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    BucketListView()
+struct BucketListItemToggle: View {
+    @Bindable var item: BucketListItem
+    
+    var body: some View {
+        Toggle("Bucket list item is in plan", isOn: $item.isInPlan)
+            .labelsHidden()
+    }
+}
+
+#Preview(traits: .sampleData) {
+    @Previewable @Query var trips: [Trip]
+    NavigationStack {
+        BucketListView(trip: trips.first!)
+    }
 }
