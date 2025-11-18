@@ -68,7 +68,12 @@ struct AddBucketListItemView: View {
             let newItem = BucketListItem(title: title, details: details, hasReservation: hasReservations, isInPlan: isInPlan)
             modelContext.insert(newItem)
             newItem.trip = trip
-            trip.bucketList.append(newItem)
+            // manual saving to ensure model saved immediately
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to save model context: \(error)")
+            }
         }
     }
 }
